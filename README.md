@@ -3,7 +3,7 @@
 ![](figures/git_images.png)
 
 ## Description
-A Git and GitHub tutorial for the UW Cancer Modeling Group's meeting on 4/26/22. Much of the tutorial is taken and adapted from the Git documentation's tutorials [1](https://git-scm.com/docs/gittutorial) and [2](https://git-scm.com/docs/gittutorial-2). This tutorial will cover the basics of 
+A Git and GitHub tutorial by Nathan Lee for the UW Cancer Modeling Group's meeting on 4/26/22. Much of the tutorial is taken and adapted from the Git documentation's tutorials [1](https://git-scm.com/docs/gittutorial) and [2](https://git-scm.com/docs/gittutorial-2). This tutorial will cover the basics of 
 - staging & commits (init, add, and commit)
 - branches
 - examining changes (`git diff`)
@@ -215,17 +215,19 @@ You'll come across the word "origin" often. "origin" is an alias for the remote.
 ```
 $ git remote -v
 ```
-If you have cloned a repository, then it should point to that remote repository. Let's say we think a file is missing from this repository. Let's create, add, and commit this file first,
+If you have cloned a repository, then it should point to that remote repository. In our case, we can see that origin points to [https://github.com/libgit2/libgit2](https://github.com/libgit2/libgit2) for both push and fetch commands. 
+
+Let's say we think a file is missing from this repository. Let's create, add, and commit this file first,
 ```
 $ echo "missing line" > missing_file.txt
 $ git add missing_file.txt
 $ git commit -m "added missing file"
 ```
-First fetch the remote to make sure our remote is up to date, in case someone added the missing file already.  
+First fetch the remote to make sure our remote is up to date, in case someone added the missing file already. fetch does not change our local repository at all. remotes are stored similarly to local repository. They are stored in `./.git/refs/remotes/`. By running fetch, we are updating this remote to see if anything changed in the [https://github.com/libgit2/libgit2](https://github.com/libgit2/libgit2) repository. To understand more about what fetch is doing, [this](https://www.atlassian.com/git/tutorials/syncing/git-fetch) is a good explainer.  
 ```
 $ git fetch origin
 ```
-<b>Note</b>, `git pull` is a shortcut for `git fetch` followed by `git merge`. Probably best to avoid using `git pull`, instead use fetch and merge ([1](https://longair.net/blog/2009/04/16/git-fetch-and-merge/)). Compare our local repo with the fetched remote:
+<b>Note</b>, `git pull` is a shortcut for `git fetch` followed by `git merge`. Probably best to avoid using `git pull`, instead use fetch and merge ([good blog post about this issue](https://longair.net/blog/2009/04/16/git-fetch-and-merge/)). Compare our local repo with the fetched remote:
 ```
 $ git diff --summary FETCH_HEAD
 ```
@@ -235,7 +237,11 @@ GitHub also has a command line interface called GitHub CLI ([installation instru
 ```
 $ gh repo create
 ```
-and follow the interactive prompts. 
+and follow the interactive prompts. This will create an empty repository on GitHub. To add your local repository to it, you need to push to it:
+```
+$ git push origin master
+```
+When you make additional commits that you want to push, you can run this same command to update the remote with the commits.
 
 
 ## .gitignore file
